@@ -1,0 +1,35 @@
+#!/bin/bash
+stty sane; stty -echoctl
+
+if [ $(id -u) != 0 ]; then
+  sudo -v
+fi
+
+SCRIPT_LOC=$(readlink -f "$0")
+
+if [ "$1" == "k" ]; then
+  echo "Killing prox.."
+  sudo killall socat
+  exit 0;
+fi
+
+echo
+
+if [ "$#" -lt 1 ]; then
+  echo "Enter the incoming address: (port, hostname:port, ip:port)"
+  read addr
+
+  [ -z "$addr" ] && exit 0
+  exec $SCRIPT_LOC $addr
+elif [ "$#" -eq 1 ]; then
+  echo "Enter the address to proxy to: (port, hostname:port, ip:port)"
+  read addr
+  
+  [ -z "$addr" ] && exit 0
+  exec $SCRIPT_LOC $1 $addr
+elif [ "$#" -eq 2 ]; then
+  [ "$2" -eq "$2" ] && addr="localhost:${2}" || addr="$2"
+  sudo socat TCP-LISTEN:${1},reuseaddr,fork TCP4:${addr} &
+  echo "Proxying ${1} to ${addr}"
+fi
+

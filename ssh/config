@@ -1,0 +1,16 @@
+IdentityFile      ~/.ssh/id_rick
+
+Host github
+    HostName      github.com
+    IdentityFile  ~/.ssh/id_rick
+
+
+Host home
+    HostName      server.home
+    User          root
+    Port          2020
+    IdentityFile  ~/.ssh/id_rick
+
+Host *
+    ServerAliveInterval 30
+    ServerAliveCountMax 3

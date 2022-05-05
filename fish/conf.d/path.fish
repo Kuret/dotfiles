@@ -1,0 +1,1 @@
+set -x PATH $HOME/bin $HOME/.local/bin /usr/local/bin /usr/local/sbin /opt/local/bin /opt/local/sbin $PATH
