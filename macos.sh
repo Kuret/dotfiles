@@ -24,6 +24,9 @@ sudo launchctl load -w /Library/LaunchDaemons/limit.maxfiles.plist 2> /dev/null
 echo "Disabling Mouse Acceleration"
 defaults write .GlobalPreferences com.apple.mouse.scaling -1
 
+echo "Drag window by clicking anywhere in it and holding cmd + ctrl"
+defaults write -g NSWindowShouldDragOnGesture -bool true
+
 echo ""
 echo "[Dock]"
 echo "Enabling autohide"
