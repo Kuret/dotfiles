@@ -1,4 +1,5 @@
 local o = vim.opt
+local fn = vim.fn
 local indent = 2
 
 o.autowriteall = true -- Write all on exit
@@ -10,15 +11,13 @@ o.splitbelow = true -- New splits below current window
 o.splitright = true -- New splits right of current window
 o.sessionoptions = 'blank,curdir,help,tabpages,winsize' -- What to save/restore from sessions
 o.termguicolors = true -- Enable 24-bit RGB color support in the terminal
-o.undodir = '/Users/rick/.config/nvim/undodir' -- Location for undo file
+o.undodir = fn.expand('~/.config/nvim/undodir') -- Location for undo file
 o.undofile = true -- Save undo history across sessions
 
 o.tabstop = indent -- Amount of spaces to use for Tab
 o.shiftwidth = indent -- Amount of spaces to use for indentation
 o.expandtab = true -- Use spaces instead of tabs
 o.swapfile = false -- Don't use swapfile for buffers
-o.spellfile = '/Users/rick/.config/nvim/spell/en.utf-8.add' -- Location of Spell file
-o.spelllang = 'en,nl,de' -- Spell checking languages
 
 o.colorcolumn = '80,100' -- Show column at 80 and 100 chars
 o.cursorline = true -- Highlight current line
