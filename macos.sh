@@ -27,6 +27,12 @@ defaults write .GlobalPreferences com.apple.mouse.scaling -1
 echo "Drag window by clicking anywhere in it and holding cmd + ctrl"
 defaults write -g NSWindowShouldDragOnGesture -bool true
 
+echo "Disabling saving the application state on shutdown"
+defaults write com.apple.loginwindow TALLogoutSavesState -bool false
+
+echo "Disabling Spotlight indexing of files"
+sudo mdutil -a -i off
+
 echo ""
 echo "[Dock]"
 echo "Enabling autohide"

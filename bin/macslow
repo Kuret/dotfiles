@@ -2,3 +2,5 @@
 
 sudo killall SystemUIServer
 sudo killall configd
+sudo killall powerd
+sudo pmset schedule cancelall

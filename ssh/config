@@ -2,7 +2,7 @@ IdentityFile      ~/.ssh/id_rick
 
 Host github
     HostName      github.com
-    IdentityFile  ~/.ssh/id_rick
+    IdentityFile  ~/.ssh/id_ecdsa_sk
 
 
 Host home

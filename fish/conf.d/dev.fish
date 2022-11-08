@@ -51,3 +51,6 @@ abbr grod "git fetch -p; git rebase origin/development"
 abbr grom "git fetch -p; git rebase origin/master"
 abbr groma "git fetch -p; git rebase origin/main"
 abbr gst "git status"
+
+# Heroku
+abbr hr "heroku restart -a"

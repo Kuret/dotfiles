@@ -2,7 +2,8 @@ vim.lsp.set_log_level("debug") -- So I can actually see what's wrong when LSP de
 
 -- Format on save
 -- Doing *.ex,*.exs with vim-mix-format for now
-vim.cmd 'au BufWritePre *.rb,*.erb lua vim.lsp.buf.formatting_sync(nil, 2000)'
+-- vim.cmd 'au BufWritePre *.rb,*.erb lua vim.lsp.buf.formatting_sync(nil, 2000)' -- Not autoformatting ruby for now
+vim.cmd 'au BufWritePre lua vim.lsp.buf.formatting_sync(nil, 2000)'
 
 -- Add options upon attaching to buffers (Completion, capabilities)
 local enhance_attach = function(client,bufnr)
