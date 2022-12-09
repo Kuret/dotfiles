@@ -5,6 +5,8 @@ vim.lsp.set_log_level("debug") -- So I can actually see what's wrong when LSP de
 -- vim.cmd 'au BufWritePre *.rb,*.erb lua vim.lsp.buf.formatting_sync(nil, 2000)' -- Not autoformatting ruby for now
 vim.cmd 'au BufWritePre lua vim.lsp.buf.formatting_sync(nil, 2000)'
 
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
 -- Add options upon attaching to buffers (Completion, capabilities)
 local enhance_attach = function(client,bufnr)
   local has_completion,completion = pcall(require,'completion')
@@ -27,13 +29,14 @@ end
 -- Initialize LSP for Elixir, disable Dialyzer because it's slow
 -- https://github.com/elixir-lsp/elixir-ls
 require'lspconfig'.elixirls.setup{
-  cmd = { "elixir-ls" },
+  cmd = { "/home/rick/elixir-ls/rel/language_server.sh" },
+  capabilities = capabilities,
   on_attach = enhance_attach,
   settings = {
     elixirLS = {
       dialyzerEnabled = false,
       suggestSpecs = false,
-      mixEnv = "test"
+      mixEnv = "dev"
     }
   }
 }

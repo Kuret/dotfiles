@@ -1,6 +1,3 @@
-# Tmux
-abbr tmux "TERM=screen-256color tmux"
-
 # Quickly edit common config files
 alias fishe "pushd ~/.config/fish && nvim && popd"
 alias nvime "pushd ~/.config/nvim && nvim && popd"

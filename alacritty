@@ -2,18 +2,18 @@ window:
   padding:
     x: 10
     y: 10
-  decorations: buttonless
+  decorations: None
   opacity: 1
 
 tabspaces: 2
 
 font:
   normal:
-    family: "Consolas NF"
+    family: "LigaConsolas Nerd Font"
   bold:
-    family: "Consolas NF"
+    family: "LigaConsolas Nerd Font"
   italic:
-    family: "Consolas NF"
+    family: "LigaConsolas Nerd Font"
   size: 12.0
   scale_with_dpi: false
 

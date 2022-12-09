@@ -27,19 +27,21 @@ symlink() {
   fi
 }
 
+
 echo "=================================================="
 echo "Linking Dotfiles"
 echo "=================================================="
 
 # Home directory
-symlink ${SCRIPT_PATH}/bin ~/bin;
+# symlink ${SCRIPT_PATH}/bin ~/bin;
+symlink ${SCRIPT_PATH}/bin/prox ~/bin/prox;
 
 symlink ${SCRIPT_PATH}/gitconfig ~/.gitconfig;
 
 symlink ${SCRIPT_PATH}/ssh/id_rick.pub ~/.ssh/id_rick.pub;
 symlink ${SCRIPT_PATH}/ssh/config ~/.ssh/config;
 
-symlink ${SCRIPT_PATH}/tmux ~/.tmux.conf;
+# symlink ${SCRIPT_PATH}/tmux ~/.tmux.conf;
 
 # Config directory
 symlink ${SCRIPT_PATH}/alacritty ~/.config/alacritty/alacritty.yml;
