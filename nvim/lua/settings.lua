@@ -30,6 +30,11 @@ o.spell = true -- Enable spell checking
 o.statusline = '  %f:%l:%c  %m%=%{strlen(&ft)?&ft:"none"}  '
 o.laststatus = 3 -- Global statusline
 
+o.backup = false -- Don't create backup files
+o.writebackup = false -- Don't create backup files
+o.updatetime = 300 -- Faster completion
+o.signcolumn = 'yes' -- Always show signcolumn
+
 vim.cmd 'au TextYankPost * silent! lua vim.highlight.on_yank {on_visual=false, timeout=1000}' -- Highlight text on yank
 vim.cmd 'au FocusGained,BufEnter,CursorHold,CursorHoldI * checktime' -- Reload file when it changes on disk
 vim.cmd 'au FileChangedShellPost * echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None' -- Reload file when it changes on disk
