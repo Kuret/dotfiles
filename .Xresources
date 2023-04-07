@@ -1,0 +1,13 @@
+! X11 Style
+Xcursor.theme: Breeze_Obsidian
+Xcursor.size: 24
+
+Xft.dpi: 120
+Xft.autohint: 0
+Xft.lcdfilter:  lcddefault
+Xft.hintstyle:  hintfull
+Xft.hinting: 1
+Xft.antialias: 1
+Xft.rgba: rgb
+
+! Maybe rofi here?
