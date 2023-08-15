@@ -7,7 +7,8 @@
 
   home.packages = with pkgs; [
     fish any-nix-shell
-    nix-prefetch-git ripgrep
+    nix-prefetch-github ripgrep wget
+    github-copilot-cli
   ];
 
   # Packages installed outside of nix:
