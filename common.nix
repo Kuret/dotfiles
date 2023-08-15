@@ -26,7 +26,7 @@
     ./config/ctags.nix
     ./config/git.nix
     ./config/nvim.nix
-    ./config/rtx.nix
+    ./config/dev.nix
     ./config/tmux.nix
   ];
 }
