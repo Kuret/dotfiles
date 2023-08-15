@@ -1,9 +1,12 @@
 { config, pkgs, ... }:
 
 {
+  home.homeDirectory = "/home/rick";
+
   home.packages = with pkgs; [
     alacritty
 
+    # Consolas ligaturized font
     (callPackage ./my-pkgs/ttf-ligaconsolas-nerd-font.nix {})
   ];
 

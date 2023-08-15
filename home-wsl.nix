@@ -1,8 +1,7 @@
 { config, pkgs, ... }:
 
 {
-  home.packages = with pkgs; [
-  ];
+  home.homeDirectory = "/home/rick";
 
   imports = [
     ./common.nix
