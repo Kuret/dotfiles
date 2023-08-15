@@ -20,4 +20,6 @@
     # ASDF/RTX
     asdf = "rtx";
   };
+
+  home.file.".iex.exs".source = ./.iex.exs;
 }
