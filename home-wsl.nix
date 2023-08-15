@@ -6,6 +6,6 @@
 
   imports = [
     ./common.nix
-    ./wsl.nix
+    ./config/wsl.nix
   ];
 }

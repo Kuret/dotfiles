@@ -22,11 +22,11 @@
   programs.home-manager.enable = true;
 
   imports = [
-    ./fish.nix
-    ./ctags.nix
-    ./git.nix
-    ./nvim.nix
-    ./rtx.nix
-    ./tmux.nix
+    ./config/fish.nix
+    ./config/ctags.nix
+    ./config/git.nix
+    ./config/nvim.nix
+    ./config/rtx.nix
+    ./config/tmux.nix
   ];
 }

@@ -11,7 +11,7 @@
 
   imports = [
     ./common.nix
-    ./alacritty.nix
-    ./dconf.nix
+    ./config/alacritty.nix
+    ./config/dconf.nix
   ];
 }

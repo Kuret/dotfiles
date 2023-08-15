@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
 {
-  imports = [ ./my-pkgs/universal-ctags.nix ];
+  imports = [ ../my-pkgs/universal-ctags.nix ];
 
   programs.universal-ctags.enable = true;
   programs.universal-ctags.config = ''
