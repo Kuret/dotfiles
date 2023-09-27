@@ -16,6 +16,8 @@
   #   postgresql (-client, -contrib)
   #   cmake
   #   inotify-tools
+  #   imagemagick
+  #   wslu / xdg-open (for opening links from WSL2)
   #   build dependencies for rtx/asdf-erlang
 
   # Let Home Manager install and manage itself.

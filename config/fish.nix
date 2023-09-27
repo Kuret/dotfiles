@@ -27,6 +27,9 @@
 
       fenv source $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
       any-nix-shell fish --info-right | source
+
+      # Remove default aliases from copilot-cli plugin
+      functions -e !! git! gh!
     '';
 
     shellAliases = {
@@ -34,6 +37,10 @@
       cp = "cp -riv";
       mkdir = "mkdir -vp";
       ls = "ls --color=auto";
+
+      "," = "__copilot_what-the-shell";
+      ",g" = "__copilot_git-assist";
+      ",gh" = "__copilot_gh-assist";
     };
 
     shellAbbrs = {
@@ -98,6 +105,16 @@
           repo = "nix-env.fish";
           rev = "7b65bd228429e852c8fdfa07601159130a818cfa";
           sha256 = "069ybzdj29s320wzdyxqjhmpm9ir5815yx6n522adav0z2nz8vs4";
+        };
+      }
+
+      {
+        name = "github-copilot-cli";
+        src = pkgs.fetchFromGitHub {
+          owner = "z11i";
+          repo = "github-copilot-cli.fish";
+          rev = "ccb6367bbb3055ea19b9ff0eac1ccf1c5e86419a";
+          sha256 = "cnmxvnG3WN2uqtt1aUEf0OFJulQSpFd3RJeeVKpDI9Y=";
         };
       }
     ];
