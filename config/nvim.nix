@@ -22,7 +22,7 @@ in {
     viAlias = true;
     vimAlias = true;
     extraPackages = with pkgs; [
-      nodejs-16_x # Needed for copilot
+      nodejs-18_x # Needed for copilot
     ];
 
     extraConfig = ''
@@ -135,7 +135,7 @@ in {
         plugin = copilot-vim;
       	type = "lua";
       	config = ''
-          vim.g.copilot_node_command = "${pkgs.nodejs-16_x}/bin/node"
+          vim.g.copilot_node_command = "${pkgs.nodejs-18_x}/bin/node"
       	'';
       }
 

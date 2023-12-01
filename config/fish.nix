@@ -49,6 +49,9 @@
       lla = "ls -al";
       ll = "ls -l";
 
+      # tmux session
+      tmux = "tmux new -A -s dev";
+
       # Heroku
       hr = "heroku restart -a";
     };
