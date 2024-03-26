@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 
 {
   home.sessionVariables = {
@@ -11,9 +11,13 @@
     HOMEBREW_NO_ANALYTICS = "1";
     DOTNET_CLI_TELEMETRY_OPTOUT = "1";
 
+    KERL_CONFIGURE_OPTIONS = "--without-javac --without-odbc --with-ssl=${lib.getOutput "out" pkgs.openssl} --with-ssl-incl=${lib.getDev pkgs.openssl}";
+
     # Path
     PATH = "$PATH:$HOME/bin";
   };
+
+  home.file.".hushlogin".text = "";
 
   programs.direnv.enable = true;
   programs.zoxide.enable = true;
@@ -27,6 +31,9 @@
 
       fenv source $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
       any-nix-shell fish --info-right | source
+
+      # Homebrew
+      eval "$(/opt/homebrew/bin/brew shellenv)"
 
       # Remove default aliases from copilot-cli plugin
       functions -e !! git! gh!
@@ -50,10 +57,13 @@
       ll = "ls -l";
 
       # tmux session
-      tmux = "tmux new -A -s dev";
+      tmux = "tmux -CC new -A -s dev";
 
       # Heroku
       hr = "heroku restart -a";
+
+      # Youtube-DL
+      ytdl = "yt-dlp -x -f bestaudio --audio-format aac";
     };
 
     functions = {

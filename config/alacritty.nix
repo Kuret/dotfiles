@@ -16,9 +16,10 @@
     };
     font = {
       normal.family = "LigaConsolas Nerd Font";
+      normal.style = "Book";
       bold.family = "LigaConsolas Nerd Font";
       italic.family = "LigaConsolas Nerd Font";
-      size = 10;
+      size = 13;
     };
     colors = {
       # Zenbones#seoulbones

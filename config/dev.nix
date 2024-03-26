@@ -2,12 +2,12 @@
 
 {
   home.sessionVariables = {
-    # Write ASDF-Compatible .tool-versions file for RTX
-    RTX_ASDF_COMPAT= "1";
+    # Write ASDF-Compatible .tool-versions file for Mise
+    MISE_ASDF_COMPAT= "1";
   };
 
-  programs.rtx.enable = true;
-  programs.rtx.enableFishIntegration = true;
+  programs.mise.enable = true;
+  programs.mise.enableFishIntegration = true;
 
   programs.fish.shellAbbrs = {
     # Elixir
@@ -17,8 +17,8 @@
     mup = "npm install && npm run-script build && mix do deps.get, ecto.migrate";
     mups = "npm install && npm run-script build && mix do deps.get, ecto.migrate && iex -S mix phx.server";
 
-    # ASDF/RTX
-    asdf = "rtx";
+    # ASDF/MISE
+    asdf = "mise";
   };
 
   home.file.".iex.exs".source = ./.iex.exs;

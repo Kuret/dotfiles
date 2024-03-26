@@ -18,12 +18,10 @@
   #   inotify-tools
   #   imagemagick
   #   wslu / xdg-open (for opening links from WSL2)
-  #   build dependencies for rtx/asdf-erlang
+  #   build dependencies for mise/asdf-erlang
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
-
-  services.ssh-agent.enable = true;
 
   imports = [
     ./config/fish.nix

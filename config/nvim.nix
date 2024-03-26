@@ -1,6 +1,11 @@
 { pkgs, lib, vimUtils, ... }:
 let
-  pluginGit = ref: repo: pkgs.vimUtils.buildVimPluginFrom2Nix {
+  spellConfig = lang: ''
+    vim.opt_local.spell = true
+    vim.opt_local.spelllang = ${lang}
+  '';
+
+  pluginGit = ref: repo: pkgs.vimUtils.buildVimPlugin {
     pname = "${lib.strings.sanitizeDerivationName repo}";
     version = ref;
     src = builtins.fetchGit {
@@ -15,6 +20,12 @@ in {
     VISUAL = "nvim";
     EDITOR = "nvim";
   };
+
+  # Spellcheck for specific filetypes
+  # Download/update languages from http://ftp.vim.org/vim/runtime/spell and place them in config/nvim/spell
+  home.file.".config/nvim/spell".source = ./nvim/spell;
+  home.file.".config/nvim/ftplugin/markdown.lua".text = spellConfig ''{"en", "nl"}'';
+  home.file.".config/nvim/ftplugin/po.lua".text = spellConfig ''{"nl", "de", "en"}'';
 
   programs.neovim = {
     enable = true;
@@ -74,9 +85,9 @@ in {
       o.relativenumber = true -- Show relative line numbers
       o.scrolloff = 2 -- Keep at least 2 lines above/below
       o.sidescrolloff = 2 -- Keep at least 2 columns left/right
-      o.spell = true -- Enable spell checking
       o.statusline = '  %f:%l:%c  %m%=%{strlen(&ft)?&ft:"none"}  '
       o.laststatus = 3 -- Global statusline
+      o.spell = false -- Disable global spell checking
 
       o.backup = false -- Don't create backup files
       o.writebackup = false -- Don't create backup files
@@ -172,6 +183,7 @@ in {
 
       # Language support
       vim-polyglot
+      vim-gutentags
       {
         plugin = (plugin "mhinz/vim-mix-format");
       	type = "lua";
