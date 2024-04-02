@@ -4,10 +4,7 @@
   home.homeDirectory = "/Users/rick";
 
   home.packages = with pkgs; [
-    heroku
-    imagemagick
-
-    openssl cmake autoconf terminal-notifier
+    heroku imagemagick terminal-notifier
 
     darwin.apple_sdk.frameworks.CoreFoundation
     darwin.apple_sdk.frameworks.CoreServices

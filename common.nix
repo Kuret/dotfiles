@@ -8,6 +8,8 @@
     fish any-nix-shell
     nix-prefetch-github ripgrep wget
     github-copilot-cli
+    unar
+    openssl gcc cmake autoconf automake gnumake
   ];
 
   # Packages installed outside of nix:

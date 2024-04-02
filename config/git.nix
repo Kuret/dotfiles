@@ -6,7 +6,7 @@
   programs.git.enable = true;
   programs.git.userEmail = "rick@littel.me";
   programs.git.userName = "Rick Littel";
-  programs.git.ignores = [ "shell.nix" "tags" ".iex.exs" ".mise.local.toml" ];
+  programs.git.ignores = [ "shell.nix" "tags" ".iex.exs" ".mise.local.toml" ".vscode" ];
 
   programs.fish.shellAbbrs = {
     # Git
