@@ -1,0 +1,5 @@
+shell.nix
+tags
+.iex.exs
+.mise.local.toml
+.vscode
