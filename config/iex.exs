@@ -3,7 +3,7 @@ defmodule IExHome do
 
   def app_name do
     if :ets.whereis(Mix.State) != :undefined,
-      do: Mix.Project.get.project[:name] || Mix.Project.get.project[:app] || "app",
+      do: Mix.Project.get.project()[:name] || Mix.Project.get.project()[:app] || "app",
       else: "iex"
   end
 

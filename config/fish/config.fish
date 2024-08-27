@@ -52,4 +52,7 @@ set fish_greeting
 # Homebrew
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
+# Mise
+mise activate fish | source
+
 zoxide init fish | source
