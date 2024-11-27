@@ -3,3 +3,4 @@ tags
 .iex.exs
 .mise.local.toml
 .vscode
+.elixir-tools

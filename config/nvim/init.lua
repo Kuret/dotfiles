@@ -126,53 +126,54 @@ set('n', '<leader>tv', ':TestVisit<CR>', {silent=true})
 
 -- WinShift  --
 set('n', '<leader>ws', ':WinShift<CR>', {silent=true})
-    -- vim.g.copilot_node_command = "/nix/store/pjy8bvqg46vlplwrvhzys7bmbb16wald-nodejs-18.19.1/bin/node"
-	
-	  local actions = require('telescope.actions')
 
-    require('telescope').setup {
-      defaults = {
-        mappings = {
-          i = {
-            ["<esc>"] = actions.close
-          }
-        }
-      },
-      extensions = {
-        fzf = {
-          fuzzy = true,                    -- false will only do exact matching
-          override_generic_sorter = false, -- override the generic sorter
-          override_file_sorter = true,     -- override the file sorter
-          case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
-                                           -- the default case_mode is "smart_case"
-        }
+local actions = require('telescope.actions')
+
+require('telescope').setup {
+  defaults = {
+    mappings = {
+      i = {
+        ["<esc>"] = actions.close
       }
     }
+  },
+  extensions = {
+    fzf = {
+      fuzzy = true,                    -- false will only do exact matching
+      override_generic_sorter = false, -- override the generic sorter
+      override_file_sorter = true,     -- override the file sorter
+      case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
+                                       -- the default case_mode is "smart_case"
+    }
+  }
+}
 
-    require('telescope').load_extension('fzf')
-	
-	  vim.g.mix_format_on_save = 1
-    vim.g.mix_format_silent_errors = 1
+require('telescope').load_extension('fzf')
+
+vim.g.mix_format_on_save = 1
+vim.g.mix_format_silent_errors = 1
 	
 require('Comment').setup()
 require('leap').set_default_keymaps()
-	  vim.g['test#strategy'] = 'asyncrun'
-    vim.cmd 'au User AsyncRunStart call asyncrun#quickfix_toggle(15, 1)'
 
-    vim.g['test#elixir#exunit#options'] = {
-      nearest = ' ',
-      file = '--trace --stale',
-      suite = '--stale'
-    }
+vim.g['test#strategy'] = 'asyncrun'
+vim.cmd 'au User AsyncRunStart call asyncrun#quickfix_toggle(15, 1)'
+
+vim.g['test#elixir#exunit#options'] = {
+  nearest = ' ',
+  file = '--trace --stale',
+  suite = '--stale'
+}
 	
 require('gitsigns').setup()
 require('winshift').setup()
 require('colorizer').setup()
-	        vim.o.background = 'light'
-          vim.g.seoulbones_lightness = 'dim'
 
-	        vim.cmd [[
-	          colorscheme seoulbones
-	          highlight clear SignColumn
-	        ]]
+vim.o.background = 'light'
+vim.g.seoulbones_lightness = 'dim'
+
+vim.cmd [[
+  colorscheme seoulbones
+  highlight clear SignColumn
+]]
 	      

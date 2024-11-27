@@ -55,4 +55,7 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 # Mise
 mise activate fish | source
 
+# FZF
+fzf --fish | source
+
 zoxide init fish | source
