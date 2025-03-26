@@ -15,7 +15,6 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-  "github/copilot.vim",
   "nvim-lua/plenary.nvim",
 { "nvim-telescope/telescope-fzf-native.nvim", build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build" },
   "nvim-telescope/telescope.nvim",
@@ -33,8 +32,7 @@ require("lazy").setup({
   "lewis6991/gitsigns.nvim",
   "sindrets/winshift.nvim",
   "norcalli/nvim-colorizer.lua",
-  "mcchrish/zenbones.nvim",
-  "wakatime/vim-wakatime",
+  "mcchrish/zenbones.nvim"
 })
 
 
@@ -107,10 +105,6 @@ set('n', '<leader>nw', [[:%s/\s\+$//<CR>]]) -- Trim trailing whitespace
 set('n', '<leader>x', ':Sexplore<CR>', {silent=true}) -- Open nvim's default explorer in split
 set('n', '<leader>q', ':wq<CR>', {silent=true}) -- Save and quit current buffer file
 set('i', 'jj', '<Esc>') -- Quickly leave insert mode
-
--- Copilot --
-set('i', ']]', 'copilot#Next()', {silent=true, expr=true}) -- Copilot accept suggestion
-set('i', '[[', 'copilot#Previous()', {silent=true, expr=true}) -- Copilot accept suggestion
 
 -- Telescope --
 set('n', '<leader>p', ':Telescope resume<CR>', {silent=true})

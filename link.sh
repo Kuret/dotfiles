@@ -1,9 +1,9 @@
 #!/bin/sh
 mkdir ~/.config &>/dev/null
+mkdir ~/.config/ctags &>/dev/null
 mkdir ~/.config/nvim &>/dev/null
 mkdir ~/.config/fish &>/dev/null
 
-sudo ln -sf $HOME/dotfiles/config/Brewfile $HOME/Brewfile
 sudo ln -sf $HOME/dotfiles/config/iex.exs $HOME/.iex.exs
 sudo ln -sf $HOME/dotfiles/config/ctags $HOME/.config/ctags/default.ctags
 

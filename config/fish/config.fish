@@ -49,9 +49,6 @@ alias ls 'ls --color=auto'
 # Interactive shell initialisation
 set fish_greeting
 
-# Homebrew
-eval "$(/opt/homebrew/bin/brew shellenv)"
-
 # Mise
 mise activate fish | source
 
