@@ -1,0 +1,23 @@
+#!/usr/bin/env ruby
+
+require 'json'
+require 'shellwords'
+
+screen_info = JSON.parse(`kscreen-doctor -j`)
+
+primary_screen = screen_info["outputs"]
+  .select { |output| output["enabled"] }
+  .min_by { |output| output["priority"] }
+  .then { |output| output["modes"].find { |mode| mode["id"] == output["currentModeId"] } }
+
+height = primary_screen["size"]["height"]
+width = primary_screen["size"]["width"]
+refresh_rate = primary_screen["refreshRate"].round
+fps_limit = (refresh_rate - 3).round
+
+ENV["FPS_LIMIT"] = fps_limit.to_s
+
+puts "export HEIGHT='#{height}'"
+puts "export WIDTH='#{width}'"
+puts "export REFRESH_RATE='#{refresh_rate}'"
+puts "export FPS_LIMIT='#{fps_limit}'"

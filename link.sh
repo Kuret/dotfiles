@@ -1,16 +1,33 @@
 #!/bin/sh
-mkdir ~/.config &>/dev/null
-mkdir ~/.config/ctags &>/dev/null
-mkdir ~/.config/nvim &>/dev/null
-mkdir ~/.config/fish &>/dev/null
+mkdir -p ~/bin &>/dev/null
 
-sudo ln -sf $HOME/dotfiles/config/iex.exs $HOME/.iex.exs
-sudo ln -sf $HOME/dotfiles/config/ctags $HOME/.config/ctags/default.ctags
+mkdir -p ~/.config/ctags &>/dev/null
+mkdir -p ~/.config/fish &>/dev/null
+mkdir -p ~/.config/frogminer &>/dev/null
+mkdir -p ~/.config/nvim &>/dev/null
+mkdir -p ~/.config/plasma-workspace/env &>/dev/null
 
-sudo ln -sf $HOME/dotfiles/config/git $HOME/.config/git
+ln -sf $HOME/dotfiles/config/bin/disable-boost $HOME/bin/disable-boost
+ln -sf $HOME/dotfiles/config/bin/enable-boost $HOME/bin/enable-boost
+ln -sf $HOME/dotfiles/config/bin/gsrun $HOME/bin/gsrun
+ln -sf $HOME/dotfiles/config/bin/screeninfo $HOME/bin/screeninfo
+ln -sf $HOME/dotfiles/config/bin/tdp $HOME/bin/tdp
+ln -sf $HOME/dotfiles/config/bin/wlrun $HOME/bin/wlrun
 
-sudo ln -sf $HOME/dotfiles/config/nvim/init.lua $HOME/.config/nvim/init.lua
+chmod +x $HOME/bin/*
 
-sudo ln -sf $HOME/dotfiles/config/fish/config.fish $HOME/.config/fish/config.fish
-sudo ln -sf $HOME/dotfiles/config/fish/functions $HOME/.config/fish
-sudo ln -sf $HOME/dotfiles/config/fish/conf.d $HOME/.config/fish
+ln -sf $HOME/dotfiles/config/ctags $HOME/.config/ctags/default.ctags
+ln -sf $HOME/dotfiles/config/git $HOME/.config/git
+ln -sf $HOME/dotfiles/config/iex.exs $HOME/.iex.exs
+
+ln -sf $HOME/dotfiles/config/fish/config.fish $HOME/.config/fish/config.fish
+ln -sf $HOME/dotfiles/config/fish/functions $HOME/.config/fish
+ln -sf $HOME/dotfiles/config/fish/conf.d $HOME/.config/fish
+
+ln -sf $HOME/dotfiles/config/frogminer/proton-tkg.cfg $HOME/.config/frogminer/proton-tkg.cfg
+
+ln -sf $HOME/dotfiles/config/nvim/init.lua $HOME/.config/nvim/init.lua
+
+ln -sf $HOME/dotfiles/config/plasma-workspace/env/hdr-cursor-fix.sh $HOME/.config/plasma-workspace/env/hdr-cursor-fix.sh
+ln -sf $HOME/dotfiles/config/plasma-workspace/env/path.sh $HOME/.config/plasma-workspace/env/path.sh
+ln -sf $HOME/dotfiles/config/plasma-workspace/env/no-direct-scanout.sh $HOME/.config/plasma-workspace/env/no-direct-scanout.sh

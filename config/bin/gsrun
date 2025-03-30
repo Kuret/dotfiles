@@ -1,0 +1,13 @@
+#!/bin/bash
+
+eval $(screeninfo)
+
+# export ENABLE_HDR_WSI=1
+export LD_PRELOAD=""
+export DXVK_HDR=1
+export MANGOHUD=1
+export MANGOHUD_CONFIG="vsync=2,gl_vsync=1,fps_limit=${FPS_LIMIT},show_fps_limit,winesync,vulkan_driver"
+
+sudo setcap 'CAP_SYS_NICE=eip' $(which gamescope)
+
+exec gamescope -H ${HEIGHT} -W ${WIDTH} -r ${REFRESH_RATE} --force-grab-cursor --hdr-enabled --hdr-debug-force-output --adaptive-sync -f -- "$@"
