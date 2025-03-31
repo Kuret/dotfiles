@@ -1,12 +1,48 @@
 # Dotfiles
 
 
-## CachyOS gaming packages for AMD
+## CachyOS Packages
+
+### Gaming
+- cachyos-gaming-applications
+- cachyos-gaming-meta
+- all-ways-egpu-git
+- protonup-qt
+- killwine
 - mesa-git
 - lib32-mesa-git
 - linux-firmware-git
+- amd-ucode-git
+- ryzen_smu-dkms-git
+- ryzenadj
 - vk-hdr-layer-kwin6-git # For enabling HDR with Wine-Wayland
 - wine-pure-git # Wine with Wayland, NTSync, WoW64 support
+
+### Other apps
+- 1password
+- cloudflared
+- ctags
+- cursor-extracted
+- direnv
+- git
+- git-delta
+- github-cli
+- inotify-tools
+- mailspring (thunderbird?)
+- mise
+- neovim
+- postgresql
+- qbittorrent-qt5
+- realtime-privileges (+ `sudo gpasswd -a $USER realtime`)
+- ripgrep
+- ruby, ruby-irb, ruby-rdoc
+- scrcpy
+- ttf-ligaconsolas-nerd-font
+- uad-ng-bin
+- wl-clipboard, xclip
+- yt-dlp
+- zen-twilight-bin
+- zoxide
 
 Update git packages with `-Syyu --devel`
 
@@ -32,7 +68,7 @@ In `config/plasma-workspce/env/hdr-cursor-fix.sh` is a fix to force SW rendering
 ### Power management
 Default is power-profiles-daemon, might also try:
 
-- Handheld Daemon: `paru -S hhd hhd-ui adjustor; sudo systemctl enable hhd@$(whoami)`
+- Handheld Daemon: `paru -S acpi_call-dkms hhd hhd-ui adjustor; sudo systemctl enable hhd@$(whoami)`
 - TLP & TLP-UI
 - Auto-CPUFreq & Thermald
 
