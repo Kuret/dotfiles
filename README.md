@@ -39,6 +39,7 @@
 - scrcpy
 - ttf-ligaconsolas-nerd-font
 - uad-ng-bin
+- usage
 - wl-clipboard, xclip
 - yt-dlp
 - zen-twilight-bin
@@ -61,9 +62,19 @@ In `config/plasma-workspce/env/hdr-cursor-fix.sh` is a fix to force SW rendering
 - mesa-git / linux-firmware-git should alleviate this a bit
 - Disabling direct scanout might help: https://gitlab.freedesktop.org/drm/amd/-/issues/4025
   - Fix included in `config/plasma-workspace/env/no-direct-scanout.sh`
-  - Kernel command lines that might help: `split_lock_detect=off amdgpu.ppfeaturemask=0xfffd7fff`
-    - Calculate featuremask value: `printf 'amdgpu.ppfeaturemask=0x%x\n' "$(($(cat /sys/module/amdgpu/parameters/ppfeaturemask) | 0x4000))"`
-  - The `disable-boost` and `tdp` scripts might help.
+- Kernel command lines that might help: `pcie_aspm=off split_lock_detect=off amdgpu.dcdebugmask=0x600 amdgpu.mcbp=0 amdgpu.ppfeaturemask=0xfffd7fff`
+  - Calculate featuremask value: `printf 'amdgpu.ppfeaturemask=0x%x\n' "$(($(cat /sys/module/amdgpu/parameters/ppfeaturemask) | 0x4000))"`
+- The `disable-boost` and `tdp` scripts might help.
+- Disable kwin triple buffering
+  - `systemctl edit --user plasma-kwin_wayland.service`
+  - Add: 
+    ```
+    [Service]
+    Environment="KWIN_DRM_DISABLE_TRIPLE_BUFFERING=1"
+    ```
+
+### Fix inverted screen on bootloader
+- `video=eDP-1:panel_orientation=upside_down i2c_touchscreen_props=GXTP7380:touchscreen-inverted-x:touchscreen-inverted-y`
 
 ### Power management
 Default is power-profiles-daemon, might also try:
@@ -87,6 +98,5 @@ https://docs.zen-browser.app/guides/1password
 
 
 ### Windows needed
-- Boot into windows, turn off GPU RGB in Sapphire TriXX. It will remember the state.
 - Update WD SSD Firmware
 - GPD Drivers: https://www.gpd.hk/gpdduofirmwaredriver

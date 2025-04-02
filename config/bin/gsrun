@@ -6,7 +6,7 @@ eval $(screeninfo)
 export LD_PRELOAD=""
 export DXVK_HDR=1
 export MANGOHUD=1
-export MANGOHUD_CONFIG="vsync=2,gl_vsync=1,fps_limit=${FPS_LIMIT},show_fps_limit,winesync,vulkan_driver"
+export MANGOHUD_CONFIG="vsync=2,winesync,vulkan_driver"
 
 sudo setcap 'CAP_SYS_NICE=eip' $(which gamescope)
 
