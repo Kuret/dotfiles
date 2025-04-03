@@ -17,6 +17,7 @@
 - ryzenadj
 - vk-hdr-layer-kwin6-git # For enabling HDR with Wine-Wayland
 - wine-pure-git # Wine with Wayland, NTSync, WoW64 support
+- sc-controller-git
 
 ### Other apps
 - 1password
