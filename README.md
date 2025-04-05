@@ -46,6 +46,17 @@
 - zen-twilight-bin
 - zoxide
 
+# Hyprland
+- hyprland
+- hyprpolkitagent
+- xdg-desktop-portal-hyprland xdg-desktop-portal-gtk
+- waybar
+- hyprpaper
+- hypridle
+- swaync
+- wlogout
+- wofi / rofi
+
 Update git packages with `-Syyu --devel`
 
 Heroku CLI: `curl https://cli-assets.heroku.com/install.sh | sh`

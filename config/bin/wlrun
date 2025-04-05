@@ -5,6 +5,7 @@ export LD_PRELOAD=""
 
 export DXVK_HDR=1
 export ENABLE_HDR_WSI=1
+export PROTON_ENABLE_WAYLAND=1
 
 export MANGOHUD=1
 export MANGOHUD_CONFIG="vsync=2,winesync,vulkan_driver"

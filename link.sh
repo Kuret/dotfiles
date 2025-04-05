@@ -5,7 +5,6 @@ mkdir -p ~/.config/ctags &>/dev/null
 mkdir -p ~/.config/fish &>/dev/null
 mkdir -p ~/.config/frogminer &>/dev/null
 mkdir -p ~/.config/nvim &>/dev/null
-mkdir -p ~/.config/plasma-workspace/env &>/dev/null
 
 ln -sf $HOME/dotfiles/config/bin/disable-boost $HOME/bin/disable-boost
 ln -sf $HOME/dotfiles/config/bin/enable-boost $HOME/bin/enable-boost
@@ -28,6 +27,17 @@ ln -sf $HOME/dotfiles/config/frogminer/proton-tkg.cfg $HOME/.config/frogminer/pr
 
 ln -sf $HOME/dotfiles/config/nvim/init.lua $HOME/.config/nvim/init.lua
 
+# Window manager
+mkdir -p ~/.config/kanshi &>/dev/null
+mkdir -p ~/.config/plasma-workspace/env &>/dev/null
+
+ln -sf $HOME/dotfiles/config/hypr $HOME/.config
+ln -sf $HOME/dotfiles/config/kanshi/config $HOME/.config/kanshi/config
+ln -sf $HOME/dotfiles/config/waybar $HOME/.config
+
 ln -sf $HOME/dotfiles/config/plasma-workspace/env/hdr-cursor-fix.sh $HOME/.config/plasma-workspace/env/hdr-cursor-fix.sh
 ln -sf $HOME/dotfiles/config/plasma-workspace/env/path.sh $HOME/.config/plasma-workspace/env/path.sh
 ln -sf $HOME/dotfiles/config/plasma-workspace/env/no-direct-scanout.sh $HOME/.config/plasma-workspace/env/no-direct-scanout.sh
+
+chmod +x $HOME/.config/waybar/*.sh
+chmod +x $HOME/.config/hypr/*.sh

@@ -1,0 +1,22 @@
+profile home {
+  output HDMI-A-1 enable position 0,0
+  output DP-5 enable position 505,2160
+  output eDP-1 disable
+
+  exec ~/.config/hypr/workspaces_home.sh
+}
+
+profile work {
+  output DP-1 enable position 0,0
+  output DP-5 enable position 3850,0
+  output eDP-1 enable position 3840,1800
+
+  exec ~/.config/hypr/workspaces_work.sh
+}
+
+profile duo {
+  output DP-5 enable position 0,0
+  output eDP-1 enable position 0,1800
+
+  exec ~/.config/hypr/workspaces_duo.sh
+}
