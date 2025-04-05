@@ -9,3 +9,6 @@ hyprctl dispatch moveworkspacetomonitor 7 DP-5
 hyprctl dispatch moveworkspacetomonitor 8 DP-5
 hyprctl dispatch moveworkspacetomonitor 9 DP-5
 hyprctl dispatch moveworkspacetomonitor 10 DP-5
+
+hyprctl dispatch workspace 6
+hyprctl dispatch workspace 1
