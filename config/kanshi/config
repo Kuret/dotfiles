@@ -1,22 +1,58 @@
+output "LG Electronics LG TV SSCR2 *" mode 3840x2160@120Hz scale 1 alias $home
+output "Dell Inc. DELL U2720Q *" mode 3840x2160@60Hz scale 1.25 alias $work
+output "Stargate Technology DP *" mode 2880x1800@60Hz scale 1.50 alias $duo-top
+output "Samsung Display Corp. 0x4166 *" mode 2880x1800@60Hz scale 1.50 transform 180 alias $duo-bottom
+
+
 profile home {
-  output HDMI-A-1 enable position 0,0
-  output DP-5 enable position 505,2160
-  output eDP-1 disable
+  output $home enable position 0,0
+  output $duo-top enable position 505,2160
+  output $duo-bottom disable
 
   exec ~/.config/hypr/workspaces_home.sh
 }
 
+profile home_single {
+  output $home enable position 0,0
+  output $duo-top disable
+  output $duo-bottom disable
+
+  exec ~/.config/hypr/workspaces_home_single.sh
+}
+
 profile work {
-  output DP-1 enable position 0,0
-  output DP-5 enable position 3850,0
-  output eDP-1 enable position 3840,1800
+  output $work enable position 0,0
+  output $duo-top enable position 3072,0
+  output $duo-bottom enable position 3072,1200
 
   exec ~/.config/hypr/workspaces_work.sh
 }
 
+profile work_single {
+  output $work enable position 0,0
+  output $duo-top disable
+  output $duo-bottom disable
+
+  exec ~/.config/hypr/workspaces_work_single.sh
+}
+
 profile duo {
-  output DP-5 enable position 0,0
-  output eDP-1 enable position 0,1800
+  output $duo-top enable position 0,0
+  output $duo-bottom enable position 0,1200
 
   exec ~/.config/hypr/workspaces_duo.sh
+}
+
+profile bottom {
+  output $duo-top disable
+  output $duo-bottom enable position 0,0
+
+  exec ~/.config/hypr/workspaces_bottom.sh
+}
+
+profile top {
+  output $duo-top enable position 0,0
+  output $duo-bottom disable
+
+  exec ~/.config/hypr/workspaces_top.sh
 }

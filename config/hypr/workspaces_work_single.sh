@@ -8,12 +8,10 @@ hyprctl dispatch moveworkspacetomonitor 3 $WORK
 hyprctl dispatch moveworkspacetomonitor 4 $WORK
 hyprctl dispatch moveworkspacetomonitor 5 $WORK
 
-hyprctl dispatch moveworkspacetomonitor 6 $DUO_TOP
-hyprctl dispatch moveworkspacetomonitor 7 $DUO_TOP
-hyprctl dispatch moveworkspacetomonitor 8 $DUO_TOP
-hyprctl dispatch moveworkspacetomonitor 9 $DUO_BOTTOM
-hyprctl dispatch moveworkspacetomonitor 10 $DUO_BOTTOM
+hyprctl dispatch moveworkspacetomonitor 6 $WORK
+hyprctl dispatch moveworkspacetomonitor 7 $WORK
+hyprctl dispatch moveworkspacetomonitor 8 $WORK
+hyprctl dispatch moveworkspacetomonitor 9 $WORK
+hyprctl dispatch moveworkspacetomonitor 10 $WORK
 
-hyprctl dispatch workspace 9
-hyprctl dispatch workspace 6
 hyprctl dispatch workspace 1
