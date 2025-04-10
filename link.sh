@@ -3,7 +3,6 @@ mkdir -p ~/bin &>/dev/null
 
 mkdir -p ~/.config/ctags &>/dev/null
 mkdir -p ~/.config/fish &>/dev/null
-mkdir -p ~/.config/frogminer &>/dev/null
 mkdir -p ~/.config/nvim &>/dev/null
 
 ln -sf $HOME/dotfiles/config/bin/disable-boost $HOME/bin/disable-boost
@@ -22,8 +21,6 @@ ln -sf $HOME/dotfiles/config/iex.exs $HOME/.iex.exs
 ln -sf $HOME/dotfiles/config/fish/config.fish $HOME/.config/fish/config.fish
 ln -sf $HOME/dotfiles/config/fish/functions $HOME/.config/fish
 ln -sf $HOME/dotfiles/config/fish/conf.d $HOME/.config/fish
-
-ln -sf $HOME/dotfiles/config/frogminer/proton-tkg.cfg $HOME/.config/frogminer/proton-tkg.cfg
 
 ln -sf $HOME/dotfiles/config/nvim/init.lua $HOME/.config/nvim/init.lua
 
