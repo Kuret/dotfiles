@@ -15,4 +15,4 @@ export PROTON_ENABLE_WAYLAND=1
 
 sudo setcap 'CAP_SYS_NICE=eip' $(which gamescope)
 
-exec gamescope -H ${HEIGHT} -W ${WIDTH} -r ${REFRESH_RATE} --force-grab-cursor --hdr-enabled --hdr-debug-force-output --adaptive-sync -f -- "$@"
+exec gamescope -H ${HEIGHT} -W ${WIDTH} -r ${REFRESH_RATE} --force-grab-cursor --hdr-enabled --hdr-debug-force-output --adaptive-sync -f -e --expose-wayland -- "$@"

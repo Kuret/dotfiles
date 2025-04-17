@@ -20,6 +20,14 @@ profile home_single {
   exec ~/.config/hypr/workspaces_home_single.sh
 }
 
+profile home_bottom {
+  output $home disable
+  output $duo-top enable position 505,2160
+  output $duo-bottom disable
+
+  exec ~/.config/hypr/workspaces_home.sh
+}
+
 profile work {
   output $work enable position 0,0
   output $duo-top enable position 3072,0
