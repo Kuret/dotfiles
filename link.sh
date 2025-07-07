@@ -11,6 +11,7 @@ ln -sf $HOME/dotfiles/config/bin/gsrun $HOME/bin/gsrun
 ln -sf $HOME/dotfiles/config/bin/screeninfo $HOME/bin/screeninfo
 ln -sf $HOME/dotfiles/config/bin/tdp $HOME/bin/tdp
 ln -sf $HOME/dotfiles/config/bin/wlrun $HOME/bin/wlrun
+ln -sf $HOME/dotfiles/config/bin/restart-touchpad $HOME/bin/restart-touchpad
 
 chmod +x $HOME/bin/*
 
@@ -29,6 +30,8 @@ mkdir -p ~/.config/kanshi &>/dev/null
 mkdir -p ~/.config/plasma-workspace/env &>/dev/null
 
 ln -sf $HOME/dotfiles/config/hypr $HOME/.config
+ln -sf $HOME/dotfiles/config/niri $HOME/.config
+
 ln -sf $HOME/dotfiles/config/kanshi/config $HOME/.config/kanshi/config
 ln -sf $HOME/dotfiles/config/waybar $HOME/.config
 

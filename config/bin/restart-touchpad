@@ -1,0 +1,7 @@
+#!/bin/bash
+
+sudo modprobe -r i2c_hid_acpi
+
+sleep 0.5
+
+sudo modprobe i2c_hid_acpi
