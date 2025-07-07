@@ -63,6 +63,11 @@ Heroku CLI: `curl https://cli-assets.heroku.com/install.sh | sh`
 
 ## Fixes
 
+### Proton Launch options for HDR, FSR4, Wayland
+```
+LD_PRELOAD="" MANGOHUD=1 PROTON_ENABLE_WAYLAND=1 PROTON_FSR4_UPGRADE=1 DXVK_HDR=1 game-performance %command%
+```
+
 ### Select eGPU as default
 Install `all-ways-egpu`, pick method 2 and 3.
 https://github.com/ewagner12/all-ways-egpu
