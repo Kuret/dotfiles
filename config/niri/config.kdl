@@ -36,6 +36,7 @@ input {
         // accel-profile "flat"
         // scroll-method "two-finger"
         // disabled-on-external-mouse
+        click-method "clickfinger"
     }
 
     mouse {
@@ -62,6 +63,12 @@ input {
     // Focus windows and outputs automatically when moving the mouse into them.
     // Setting max-scroll-amount="0%" makes it work only on windows already fully on screen.
     // focus-follows-mouse max-scroll-amount="0%"
+}
+
+gestures {
+  hot-corners {
+    off
+  }
 }
 
 // You can configure outputs by their name, which you can find
@@ -267,12 +274,17 @@ layout {
 // which may be more convenient to use.
 // See the binds section below for more spawn examples.
 
-spawn-at-startup "~/.config/niri/xdg.sh"
+// spawn-at-startup "~/.config/niri/xdg.sh"
+spawn-at-startup "xwayland-sattelite"
 spawn-at-startup "systemctl --user start hyprpolkitagent"
 spawn-at-startup "kanshi"
 spawn-at-startup "~/.config/waybar/launch.sh"
 spawn-at-startup "nm-applet"
 spawn-at-startup "swaync"
+
+environment {
+  DISPLAY ":0"
+}
 
 // Uncomment this line to ask the clients to omit their client-side decorations if possible.
 // If the client will specifically ask for CSD, the request will be honored.
@@ -361,7 +373,7 @@ binds {
     // Suggested binds for running programs: terminal, app launcher, screen locker.
     Super+Return hotkey-overlay-title="Open a Terminal: alacritty" { spawn "alacritty"; }
     Super+Space hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
-    Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
+    Super+Shift+Z hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock" "-c" "000000"; }
     Super+Alt+T { spawn "/home/rick/bin/restart-touchpad"; }
 
     // You can also use a shell. Do this if you need pipes, multiple commands, etc.
@@ -535,8 +547,10 @@ binds {
     Mod+R { switch-preset-column-width; }
     Mod+Shift+R { switch-preset-window-height; }
     Mod+Ctrl+R { reset-window-height; }
+
     Mod+F { maximize-column; }
     Mod+Shift+F { fullscreen-window; }
+    Mod+Alt+F { toggle-windowed-fullscreen; }
 
     // Expand the focused column to space not taken up by other fully visible columns.
     // Makes the column "fill the rest of the space".
@@ -592,6 +606,9 @@ binds {
     // The allow-inhibiting=false property can be applied to other binds as well,
     // which ensures niri always processes them, even when an inhibitor is active.
     Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
+
+    // Logout screen
+    Mod+Shift+Q { spawn "wlogout"; }
 
     // The quit action will show a confirmation dialog to avoid accidental exits.
     Mod+Shift+E { quit; }

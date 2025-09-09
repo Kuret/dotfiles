@@ -1,16 +1,7 @@
-output "LG Electronics LG TV SSCR2 *" mode 3840x2160@120Hz scale 1 alias $home
+output "Technical Concepts Ltd 34R83Q *" mode 3440x1440@144Hz scale 1 alias $home
 output "Dell Inc. DELL U2720Q *" mode 3840x2160@60Hz scale 1.25 alias $work
 output "Stargate Technology DP *" mode 2880x1800@60Hz scale 1.50 alias $duo-top
 output "Samsung Display Corp. 0x4166 *" mode 2880x1800@60Hz scale 1.50 transform 180 alias $duo-bottom
-
-
-profile home {
-  output $home enable position 0,0
-  output $duo-top enable position 505,2160
-  output $duo-bottom disable
-
-  exec ~/.config/hypr/workspaces_home.sh
-}
 
 profile home_single {
   output $home enable position 0,0
@@ -18,6 +9,14 @@ profile home_single {
   output $duo-bottom disable
 
   exec ~/.config/hypr/workspaces_home_single.sh
+}
+
+profile home {
+  output $home enable position 0,0
+  output $duo-top enable position 505,2160
+  output $duo-bottom disable
+
+  exec ~/.config/hypr/workspaces_home.sh
 }
 
 profile home_bottom {

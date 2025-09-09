@@ -46,6 +46,11 @@ alias cp 'cp -riv'
 alias mkdir 'mkdir -vp'
 alias ls 'ls --color=auto'
 
+alias c 'cursor . --enable-features=UseOzonePlatform --ozone-platform=wayland --enable-wayland-ime &>/dev/null & disown'
+
+alias p 'powerprofilesctl launch --profile performance'
+alias pb 'powerprofilesctl launch --profile balanced'
+
 # Interactive shell initialisation
 set fish_greeting
 
