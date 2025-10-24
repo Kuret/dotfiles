@@ -3,7 +3,8 @@ set -gx HOMEBREW_NO_ANALYTICS 1
 set -gx DOTNET_CLI_TELEMETRY_OPTOUT 1
 set -gx MISE_ASDF_COMPAT 1
 set -gx KERL_CONFIGURE_OPTIONS "--without-javac --without-odbc"
-set -gx PATH "$PATH:$HOME/bin"
+set -gx PATH "$PATH:$HOME/bin:$HOME/.local/bin"
+set -gx EDITOR nvim
 
 # Abbreviations
 abbr --add -- asdf mise
@@ -61,3 +62,6 @@ mise activate fish | source
 fzf --fish | source
 
 zoxide init fish | source
+
+# Direnv
+direnv hook fish | source
