@@ -5,13 +5,13 @@ mkdir -p ~/.config/ctags &>/dev/null
 mkdir -p ~/.config/fish &>/dev/null
 mkdir -p ~/.config/nvim &>/dev/null
 
-ln -sf $HOME/dotfiles/config/bin/disable-boost $HOME/bin/disable-boost
-ln -sf $HOME/dotfiles/config/bin/enable-boost $HOME/bin/enable-boost
-#ln -sf $HOME/dotfiles/config/bin/gsrun $HOME/bin/gsrun
-#ln -sf $HOME/dotfiles/config/bin/screeninfo $HOME/bin/screeninfo
-ln -sf $HOME/dotfiles/config/bin/tdp $HOME/bin/tdp
-ln -sf $HOME/dotfiles/config/bin/wlrun $HOME/bin/wlrun
-#ln -sf $HOME/dotfiles/config/bin/restart-touchpad $HOME/bin/restart-touchpad
+# ln -sf $HOME/dotfiles/config/bin/disable-boost $HOME/bin/disable-boost
+# ln -sf $HOME/dotfiles/config/bin/enable-boost $HOME/bin/enable-boost
+# ln -sf $HOME/dotfiles/config/bin/gsrun $HOME/bin/gsrun
+# ln -sf $HOME/dotfiles/config/bin/screeninfo $HOME/bin/screeninfo
+# ln -sf $HOME/dotfiles/config/bin/tdp $HOME/bin/tdp
+# ln -sf $HOME/dotfiles/config/bin/wlrun $HOME/bin/wlrun
+# ln -sf $HOME/dotfiles/config/bin/restart-touchpad $HOME/bin/restart-touchpad
 
 chmod +x $HOME/bin/*
 
@@ -36,7 +36,7 @@ ln -sf $HOME/dotfiles/config/nvim/init.lua $HOME/.config/nvim/init.lua
 #ln -sf $HOME/dotfiles/config/waybar $HOME/.config
 
 #ln -sf $HOME/dotfiles/config/plasma-workspace/env/hdr-cursor-fix.sh $HOME/.config/plasma-workspace/env/hdr-cursor-fix.sh
-ln -sf $HOME/dotfiles/config/plasma-workspace/env/path.sh $HOME/.config/plasma-workspace/env/path.sh
+# ln -sf $HOME/dotfiles/config/plasma-workspace/env/path.sh $HOME/.config/plasma-workspace/env/path.sh
 #ln -sf $HOME/dotfiles/config/plasma-workspace/env/no-direct-scanout.sh $HOME/.config/plasma-workspace/env/no-direct-scanout.sh
 
 #chmod +x $HOME/.config/waybar/*.sh

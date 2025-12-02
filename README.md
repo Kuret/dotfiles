@@ -103,6 +103,9 @@ Default is power-profiles-daemon, might also try:
 ### Fix 1Password support in unsupported browsers
 https://docs.zen-browser.app/guides/1password
 
+### Remove Zen browser borders
+- zen.theme.content-element-separation: 0
+
 ### GPD DUO tips and tricks
 - https://www.gpd.hk/gpdduofirmwaredriver
 - https://www.oscillator.se/debian-on-the-gpd-duo/

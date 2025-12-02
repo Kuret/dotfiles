@@ -4,3 +4,4 @@ tags
 .mise.local.toml
 .vscode
 .elixir-tools
+.envrc

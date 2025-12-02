@@ -3,10 +3,16 @@ set -gx HOMEBREW_NO_ANALYTICS 1
 set -gx DOTNET_CLI_TELEMETRY_OPTOUT 1
 set -gx MISE_ASDF_COMPAT 1
 set -gx KERL_CONFIGURE_OPTIONS "--without-javac --without-odbc"
-set -gx PATH "$PATH:$HOME/bin:$HOME/.local/bin"
+# set -gx PATH "/opt/homebrew/opt/postgresql@17/bin:$PATH:$HOME/bin:$HOME/.local/bin"
+fish_add_path -pP /Users/rick/.local/share/mise/shims
+fish_add_path -pP /opt/homebrew/opt/postgresql@17/bin
+fish_add_path -aP ~/bin
+fish_add_path -aP ~/.local/bin
+fish_add_path -aP ~/Library/Python/3.9/bin
 set -gx EDITOR nvim
 
 # Abbreviations
+abbr --add -- allow 'xattr -d com.apple.quarantine'
 abbr --add -- asdf mise
 abbr --add -- ga 'git add'
 abbr --add -- gaa 'git add --all'

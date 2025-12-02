@@ -12,11 +12,11 @@ if ! set -q lucid_prompt_symbol_error
 end
 
 if ! set -q lucid_prompt_symbol_color
-    set -g lucid_prompt_symbol_color "$fish_color_normal"
+    set -g lucid_prompt_symbol_color "normal"
 end
 
 if ! set -q lucid_prompt_symbol_error_color
-    set -g lucid_prompt_symbol_error_color "$fish_color_normal"
+    set -g lucid_prompt_symbol_error_color "normal"
 end
 
 # This should be set to be at least as long as lucid_dirty_indicator, due to a fish bug
