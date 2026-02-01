@@ -18,6 +18,7 @@ require("lazy").setup({
   "nvim-lua/plenary.nvim",
 { "nvim-telescope/telescope-fzf-native.nvim", build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build" },
   "nvim-telescope/telescope.nvim",
+{ "nvim-treesitter/nvim-treesitter", lazy = false, build = ":TSUpdate" },
   "sheerun/vim-polyglot",
   "ludovicchabant/vim-gutentags",
   "mhinz/vim-mix-format",
@@ -25,7 +26,7 @@ require("lazy").setup({
   "inkarkat/vim-ReplaceWithRegister",
   "jghauser/mkdir.nvim",
   "numToStr/Comment.nvim",
-  "ggandor/leap.nvim",
+  "https://codeberg.org/andyg/leap.nvim",
   "skywind3000/asyncrun.vim",
   "vim-test/vim-test",
   "rktjmp/lush.nvim",
@@ -148,7 +149,6 @@ vim.g.mix_format_on_save = 1
 vim.g.mix_format_silent_errors = 1
 	
 require('Comment').setup()
-require('leap').set_default_keymaps()
 
 vim.g['test#strategy'] = 'asyncrun'
 vim.cmd 'au User AsyncRunStart call asyncrun#quickfix_toggle(15, 1)'

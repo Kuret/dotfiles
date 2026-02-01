@@ -1,9 +1,7 @@
 #!/bin/sh
-mkdir -p ~/.config/ctags &>/dev/null
 mkdir -p ~/.config/fish &>/dev/null
 mkdir -p ~/.config/nvim &>/dev/null
 
-ln -sf $HOME/dotfiles/config/ctags $HOME/.config/ctags/default.ctags
 ln -sf $HOME/dotfiles/config/git $HOME/.config/git
 ln -sf $HOME/dotfiles/config/iex.exs $HOME/.iex.exs
 
