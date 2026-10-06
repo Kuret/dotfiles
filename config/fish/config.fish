@@ -95,26 +95,6 @@ if test -f ~/.config/op/plugins.sh
   source ~/.config/op/plugins.sh
 end
 
-if test "$DETROIT_PASEO_HOST_AGENT" = true
-  set -l detroit_paseo_root (git rev-parse --show-toplevel 2>/dev/null)
-  if test -x "$detroit_paseo_root/script/dev-container-tool"
-    set -gx PATH "$detroit_paseo_root/script/dev-container-bin" $PATH
-  end
-end
-
-# >>> llmtrim >>>
-if command -q llmtrim; and llmtrim _alive 2>/dev/null
-    set -gx HTTPS_PROXY 'http://127.0.0.1:43117'
-    set -gx HTTP_PROXY 'http://127.0.0.1:43117'
-    set -gx NO_PROXY 'localhost,127.0.0.1,::1,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,169.254.0.0/16,fd00::/8,*.local'
-    set -gx no_proxy 'localhost,127.0.0.1,::1,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,169.254.0.0/16,fd00::/8,*.local'
-    set -gx NODE_EXTRA_CA_CERTS "$HOME/.llmtrim/ca.pem"
-    set -gx NODE_USE_ENV_PROXY '1'
-    set -gx SSL_CERT_FILE "$HOME/.llmtrim/ca-bundle.pem"
-    set -gx CURL_CA_BUNDLE "$HOME/.llmtrim/ca-bundle.pem"
-end
-# <<< llmtrim <<<
-
 # Auto-disown background jobs before `exec` to suppress fish's exit warning.
 function __disown_before_exec --on-event fish_preexec
     if string match -qr '^exec\b' -- $argv[1]
