@@ -1,0 +1,222 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# t3-reap — remove stale T3 Code worktrees
+#
+# Usage: t3-reap [--days N] [--apply] [--project NAME] [-h|--help]
+#
+# T3 Code's own worktree cleanup refuses worktrees that contain ignored files
+# (_build/, deps/, .envrc, .pg_data/), so they pile up. T3 recreates a missing
+# worktree from the thread's branch on the next message, so removing the
+# directory is safe once the work is committed on a branch.
+#
+# Candidates: $T3_HOME/worktrees/*/* whose .git is a file (linked worktree).
+# A worktree is removed only if: no run is active, last activity (threads,
+# runs, user messages; or logs/HEAD mtime for orphans) is older than N days,
+# HEAD is on a branch, `git status --porcelain` is empty (ignored files are
+# fine) and no process (other than postgres) has its cwd inside it.
+#
+# Options:
+#   --days N        age threshold in days (default 14)
+#   --apply         actually remove; default is a dry run
+#   --project NAME  only look at $T3_HOME/worktrees/NAME/*
+#
+# Env: T3_HOME (default ~/.t3). The DB is opened read-only, never written.
+# On --apply: `werksfeer --cleanup PATH` (if on PATH), then
+# `git worktree remove --force`. Branches are never deleted.
+
+DAYS=14
+APPLY=0
+PROJECT=""
+T3_HOME="${T3_HOME:-$HOME/.t3}"
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --days)    DAYS="${2:?--days needs a value}"; shift 2 ;;
+    --apply)   APPLY=1; shift ;;
+    --project) PROJECT="${2:?--project needs a value}"; shift 2 ;;
+    -h|--help)
+      sed -n '3,26p' "$0" | sed 's/^# \{0,1\}//'
+      exit 0 ;;
+    *) echo "Unknown arg: $1" >&2; exit 1 ;;
+  esac
+done
+
+[[ "$DAYS" =~ ^[0-9]+$ ]] || { echo "--days must be a non-negative integer" >&2; exit 1; }
+[[ "$PROJECT" != */* ]] || { echo "--project must be a plain name" >&2; exit 1; }
+for cmd in sqlite3 git; do
+  command -v "$cmd" >/dev/null || { echo "Missing required command: $cmd" >&2; exit 1; }
+done
+
+DB="$T3_HOME/userdata/statev2.sqlite"
+[[ -r "$DB" ]] || { echo "DB not found: $DB" >&2; exit 1; }
+
+if [[ -t 1 ]]; then
+  C_GREEN=$'\e[32m'; C_YELLOW=$'\e[33m'; C_DIM=$'\e[2m'; C_OFF=$'\e[0m'
+else
+  C_GREEN=""; C_YELLOW=""; C_DIM=""; C_OFF=""
+fi
+
+# --- thread data: one row per worktree path: path <TAB> last_activity <TAB> busy
+read -r -d '' SQL <<'SQL' || true
+WITH t AS (
+  SELECT thread_id, created_at,
+         json_extract(payload_json,'$.worktreePath') AS wp
+  FROM orchestration_v2_projection_threads
+  WHERE deleted_at IS NULL
+    AND json_extract(payload_json,'$.worktreePath') IS NOT NULL
+    AND json_extract(payload_json,'$.worktreePath') <> ''
+),
+act AS (
+  SELECT wp, created_at AS a FROM t
+  UNION ALL SELECT t.wp, r.requested_at FROM t JOIN orchestration_v2_projection_runs r USING (thread_id)
+  UNION ALL SELECT t.wp, json_extract(r.payload_json,'$.startedAt') FROM t JOIN orchestration_v2_projection_runs r USING (thread_id)
+  UNION ALL SELECT t.wp, r.completed_at FROM t JOIN orchestration_v2_projection_runs r USING (thread_id)
+  UNION ALL SELECT t.wp, m.created_at FROM t JOIN orchestration_v2_projection_messages m USING (thread_id) WHERE m.role = 'user'
+)
+SELECT wp, COALESCE(MAX(a),''),
+  EXISTS (SELECT 1 FROM t t2 JOIN orchestration_v2_projection_runs r2 USING (thread_id)
+          WHERE t2.wp = act.wp
+            AND r2.status IN ('queued','preparing','starting','running','waiting'))
+FROM act GROUP BY wp;
+SQL
+
+declare -A LAST BUSY
+while IFS=$'\t' read -r wp last busy; do
+  [[ -n "$wp" ]] || continue
+  key=$(readlink -m -- "$wp")
+  # several raw paths can resolve to one real path: keep the latest/any busy
+  if [[ -z "${LAST[$key]:-}" || "$last" > "${LAST[$key]}" ]]; then LAST[$key]="$last"; fi
+  if [[ "$busy" == 1 ]]; then BUSY[$key]=1; fi
+  : "${BUSY[$key]:=0}"
+done < <(sqlite3 -readonly -cmd ".timeout 5000" -separator $'\t' "$DB" "$SQL")
+
+# --- helpers
+blocking_procs() { # prints "pid:comm ..." for processes with cwd inside $1
+  local dir="$1" p cwd comm out="" n=0
+  for p in /proc/[0-9]*; do
+    cwd=$(readlink "$p/cwd" 2>/dev/null) || continue
+    case "$cwd" in
+      "$dir"|"$dir"/*)
+        comm=$(<"$p/comm") 2>/dev/null || comm="?"
+        case "$comm" in postgres|postmaster) continue ;; esac
+        n=$((n + 1))
+        # list the first three only; the count says how many there are
+        if (( n <= 3 )); then out+="${p#/proc/}:${comm// /_} "; fi
+        ;;
+    esac
+  done
+  out="${out% }"
+  if (( n > 3 )); then out+=" (+$((n - 3)) more)"; fi
+  printf '%s' "$out"
+}
+
+human_kb() { numfmt --from-unit=1024 --to=iec "$1"; }
+
+# --- scan
+if [[ -n "$PROJECT" ]]; then
+  shopt -s nullglob
+  candidates=("$T3_HOME/worktrees/$PROJECT"/*)
+else
+  shopt -s nullglob
+  candidates=("$T3_HOME"/worktrees/*/*)
+fi
+
+now=$(date +%s)
+threshold=$((DAYS * 86400))
+rows=()
+total_kb=0
+n_ok=0
+n_fail=0
+
+for dir in "${candidates[@]}"; do
+  [[ -d "$dir" && -f "$dir/.git" ]] || continue
+  path=$(readlink -f -- "$dir")
+  name="$(basename "$(dirname "$path")")/$(basename "$path")"
+
+  # activity (before any git status, which may touch the index)
+  orphan=0
+  last="${LAST[$path]:-}"
+  if [[ -n "$last" ]]; then
+    act_epoch=$(date -d "$last" +%s 2>/dev/null || echo 0)
+  else
+    orphan=1
+    gitdir=$(git -C "$path" rev-parse --absolute-git-dir 2>/dev/null || true)
+    if [[ -n "$gitdir" && -e "$gitdir/logs/HEAD" ]]; then
+      act_epoch=$(stat -c %Y "$gitdir/logs/HEAD")
+    else
+      act_epoch=$(stat -c %Y "$path")
+    fi
+  fi
+  age=$(( (now - act_epoch) / 86400 ))
+  age_s="${age}d"; [[ $orphan == 1 ]] && age_s+=" orphan"
+
+  branch=$(git -C "$path" symbolic-ref -q --short HEAD 2>/dev/null || true)
+  size_kb=$(du -sk "$path" 2>/dev/null | cut -f1 || true)
+  size_kb="${size_kb:-0}"
+
+  reason=""
+  if [[ "${BUSY[$path]:-0}" == 1 ]]; then
+    reason="busy (active run)"
+  elif (( now - act_epoch <= threshold )); then
+    reason="recent activity"
+  elif [[ -z "$branch" ]]; then
+    reason="detached HEAD"
+  else
+    if ! status=$(git -C "$path" status --porcelain 2>&1); then
+      reason="git status failed"
+    elif [[ -n "$status" ]]; then
+      reason="dirty ($(printf '%s\n' "$status" | wc -l) paths)"
+    else
+      procs=$(blocking_procs "$path")
+      [[ -z "$procs" ]] || reason="in use by $procs"
+    fi
+  fi
+
+  verdict=""
+  if [[ -n "$reason" ]]; then
+    verdict="${C_DIM}skip: $reason${C_OFF}"
+  elif [[ $APPLY == 0 ]]; then
+    verdict="${C_YELLOW}would remove${C_OFF}"
+    total_kb=$((total_kb + size_kb)); n_ok=$((n_ok + 1))
+  else
+    fail=""
+    if command -v werksfeer >/dev/null; then
+      werksfeer --cleanup "$path" >/dev/null 2>&1 || fail="werksfeer --cleanup failed"
+    fi
+    if [[ -z "$fail" ]]; then
+      if [[ -n "$(git -C "$path" status --porcelain 2>/dev/null)" ]]; then
+        fail="became dirty"
+      fi
+    fi
+    if [[ -z "$fail" ]]; then
+      main=$(dirname "$(git -C "$path" rev-parse --path-format=absolute --git-common-dir 2>/dev/null)")
+      git -C "$main" worktree remove --force "$path" >/dev/null 2>&1 || fail="git worktree remove failed"
+    fi
+    if [[ -n "$fail" ]]; then
+      verdict="${C_DIM}skip: $fail${C_OFF}"; n_fail=$((n_fail + 1))
+    else
+      verdict="${C_GREEN}removed${C_OFF}"
+      total_kb=$((total_kb + size_kb)); n_ok=$((n_ok + 1))
+    fi
+  fi
+
+  rows+=("$name"$'\t'"${branch:-(detached)}"$'\t'"$age_s"$'\t'"$(human_kb "$size_kb")"$'\t'"$verdict")
+done
+
+if [[ ${#rows[@]} -eq 0 ]]; then
+  echo "No linked worktrees found under $T3_HOME/worktrees${PROJECT:+/$PROJECT}"
+  exit 0
+fi
+
+{
+  printf 'WORKTREE\tBRANCH\tAGE\tSIZE\tVERDICT\n'
+  printf '%s\n' "${rows[@]}"
+} | column -t -s $'\t'
+
+echo
+if [[ $APPLY == 1 ]]; then
+  echo "Freed: $(human_kb "$total_kb") in $n_ok worktree(s)$([[ $n_fail -gt 0 ]] && echo ", $n_fail failed")"
+else
+  echo "Reclaimable: $(human_kb "$total_kb") in $n_ok worktree(s) (dry run; use --apply)"
+fi
