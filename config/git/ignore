@@ -5,3 +5,10 @@ tags
 .vscode
 .elixir-tools
 .envrc
+secrets.fish
+
+**/.claude/settings.local.json
+.claude/settings.local.json
+.emdash.json
+
+paseo.json
