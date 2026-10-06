@@ -20,7 +20,6 @@ require("lazy").setup({
   "nvim-telescope/telescope.nvim",
 { "nvim-treesitter/nvim-treesitter", lazy = false, build = ":TSUpdate" },
   "sheerun/vim-polyglot",
-  "ludovicchabant/vim-gutentags",
   "mhinz/vim-mix-format",
   "bogado/file-line",
   "inkarkat/vim-ReplaceWithRegister",
