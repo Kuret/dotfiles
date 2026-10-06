@@ -227,10 +227,13 @@ if [[ ${#rows[@]} -eq 0 ]]; then
   exit 0
 fi
 
-{
+# Print from this shell, not from `column`: journald can't attribute lines from
+# short-lived children to the unit, so `journalctl -u t3-reap` would miss them.
+table=$({
   printf 'WORKTREE\tBRANCH\tAGE\tSIZE\tVERDICT\n'
   printf '%s\n' "${rows[@]}"
-} | column -t -s $'\t'
+} | column -t -s $'\t')
+echo "$table"
 
 echo
 if [[ $APPLY == 1 ]]; then
