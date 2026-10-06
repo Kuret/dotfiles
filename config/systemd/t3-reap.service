@@ -1,0 +1,12 @@
+[Unit]
+Description=Remove stale T3 Code worktrees (t3-reap)
+Documentation=file:%h/dotfiles/config/bin/t3-reap
+
+[Service]
+Type=oneshot
+# werksfeer (~/.local/bin) stops each worktree's private Postgres before removal;
+# set PATH explicitly in case the timer fires before the session imports its env.
+Environment=PATH=%h/bin:%h/.local/bin:%h/.local/share/mise/shims:/usr/local/bin:/usr/bin:/bin
+ExecStart=%h/bin/t3-reap --apply --notify
+Nice=10
+IOSchedulingClass=idle

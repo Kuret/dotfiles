@@ -28,6 +28,15 @@ for f in "$D"/bin/*; do
 done
 chmod +x "$D"/bin/*
 
+# systemd user units (t3-reap: weekday cleanup of stale T3 Code worktrees)
+if command -v systemctl >/dev/null 2>&1; then
+  for f in "$D"/systemd/*; do
+    link "$f" "$HOME/.config/systemd/user/$(basename "$f")"
+  done
+  systemctl --user daemon-reload
+  systemctl --user enable --now t3-reap.timer
+fi
+
 # Window manager configs, only where the compositor is installed
 command -v hyprland >/dev/null 2>&1 && link "$D/hypr"   "$HOME/.config/hypr"
 command -v niri     >/dev/null 2>&1 && link "$D/niri"   "$HOME/.config/niri"

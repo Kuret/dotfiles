@@ -1,0 +1,11 @@
+[Unit]
+Description=Daily t3-reap on weekday mornings
+
+[Timer]
+OnCalendar=Mon..Fri 08:30
+# Catch up after the laptop was off or asleep at 08:30.
+Persistent=true
+RandomizedDelaySec=5min
+
+[Install]
+WantedBy=timers.target
