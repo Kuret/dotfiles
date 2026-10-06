@@ -20,6 +20,8 @@ set -euo pipefail
 #   --days N        age threshold in days (default 14)
 #   --apply         actually remove; default is a dry run
 #   --project NAME  only look at $T3_HOME/worktrees/NAME/*
+#   --notify        desktop notification (notify-send) when worktrees were
+#                   removed, a removal failed, or the run errored
 #
 # Env: T3_HOME (default ~/.t3). The DB is opened read-only, never written.
 # On --apply: `werksfeer --cleanup PATH` (if on PATH), then
@@ -28,6 +30,7 @@ set -euo pipefail
 DAYS=14
 APPLY=0
 PROJECT=""
+NOTIFY=0
 T3_HOME="${T3_HOME:-$HOME/.t3}"
 
 while [[ $# -gt 0 ]]; do
@@ -35,12 +38,23 @@ while [[ $# -gt 0 ]]; do
     --days)    DAYS="${2:?--days needs a value}"; shift 2 ;;
     --apply)   APPLY=1; shift ;;
     --project) PROJECT="${2:?--project needs a value}"; shift 2 ;;
+    --notify)  NOTIFY=1; shift ;;
     -h|--help)
-      sed -n '3,26p' "$0" | sed 's/^# \{0,1\}//'
+      sed -n '3,28p' "$0" | sed 's/^# \{0,1\}//'
       exit 0 ;;
     *) echo "Unknown arg: $1" >&2; exit 1 ;;
   esac
 done
+
+notify() { # notify <urgency> <summary> <body>
+  [[ $NOTIFY == 1 ]] && command -v notify-send >/dev/null || return 0
+  notify-send --app-name=t3-reap --urgency="$1" "$2" "$3" || true
+}
+on_exit() {
+  local rc=$?
+  [[ $rc == 0 ]] || notify critical "t3-reap failed" "Exit code $rc. See journalctl --user -u t3-reap"
+}
+trap on_exit EXIT
 
 [[ "$DAYS" =~ ^[0-9]+$ ]] || { echo "--days must be a non-negative integer" >&2; exit 1; }
 [[ "$PROJECT" != */* ]] || { echo "--project must be a plain name" >&2; exit 1; }
@@ -125,6 +139,8 @@ fi
 now=$(date +%s)
 threshold=$((DAYS * 86400))
 rows=()
+removed_names=()
+failed_names=()
 total_kb=0
 n_ok=0
 n_fail=0
@@ -195,9 +211,11 @@ for dir in "${candidates[@]}"; do
     fi
     if [[ -n "$fail" ]]; then
       verdict="${C_DIM}skip: $fail${C_OFF}"; n_fail=$((n_fail + 1))
+      failed_names+=("$name ($fail)")
     else
       verdict="${C_GREEN}removed${C_OFF}"
       total_kb=$((total_kb + size_kb)); n_ok=$((n_ok + 1))
+      removed_names+=("$name")
     fi
   fi
 
@@ -216,7 +234,17 @@ fi
 
 echo
 if [[ $APPLY == 1 ]]; then
-  echo "Freed: $(human_kb "$total_kb") in $n_ok worktree(s)$([[ $n_fail -gt 0 ]] && echo ", $n_fail failed")"
+  summary="Freed: $(human_kb "$total_kb") in $n_ok worktree(s)"
+  urgency=low
+  if [[ $n_fail -gt 0 ]]; then
+    summary+=", $n_fail failed"
+    urgency=normal
+  fi
+  echo "$summary"
+  if [[ $n_ok -gt 0 || $n_fail -gt 0 ]]; then
+    body=$(printf '%s\n' "${removed_names[@]}" "${failed_names[@]/#/failed: }" | sed '/^$/d')
+    notify "$urgency" "t3-reap: $summary" "$body"
+  fi
 else
   echo "Reclaimable: $(human_kb "$total_kb") in $n_ok worktree(s) (dry run; use --apply)"
 fi
